@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Manual del Sistema · Feets and Shoes</title>
-<meta name="description" content="Guía completa de uso del sistema Feets and Shoes para gestionar pacientes, órdenes y oficinas." />
+<title>Manual del Sistema · Hitech</title>
+<meta name="description" content="Guía completa de uso del sistema Hitech para gestionar pacientes, órdenes y oficinas." />
 <style>
   /* ---------- Variables / Tema ---------- */
   :root {
@@ -261,10 +261,16 @@
     font-weight: 500;
   }
 
-  /* ---------- Section ---------- */
+  /* ---------- Section (modo página: solo una visible a la vez) ---------- */
   section {
-    margin-bottom: 60px;
-    scroll-margin-top: 90px;
+    display: none;
+    margin-bottom: 0;
+    animation: pageIn .35s cubic-bezier(.2,.6,.2,1) both;
+  }
+  section.is-active { display: block; }
+  @keyframes pageIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: none; }
   }
   .section-header {
     display: flex;
@@ -652,9 +658,9 @@
   <!-- ============ SIDEBAR ============ -->
   <aside class="sidebar" id="sidebar">
     <div class="brand">
-      <div class="brand-logo">F&amp;S</div>
+      <div class="brand-logo">Hi</div>
       <div>
-        <div class="brand-name">Feets &amp; Shoes</div>
+        <div class="brand-name">Hitech</div>
         <div class="brand-sub">Manual de usuario</div>
       </div>
     </div>
@@ -726,8 +732,8 @@
       <!-- ============ HERO ============ -->
       <section id="inicio">
         <div class="hero">
-          <span class="hero-tag">Manual del cliente · v2.0</span>
-          <h1>Bienvenido a Feets &amp; Shoes</h1>
+          <span class="hero-tag">Manual del cliente · v3.0</span>
+          <h1>Bienvenido a Hitech</h1>
           <p>Una guía clara y visual para sacarle el máximo provecho a tu sistema de gestión clínica y ortopédica. Aquí aprenderás a manejar pacientes, llevar el control de órdenes y administrar tus oficinas paso a paso.</p>
         </div>
 
@@ -1893,7 +1899,7 @@
       </section>
 
       <div class="footer">
-        Manual generado para Feets &amp; Shoes · Versión 1.0
+        Manual generado para Hitech · Versión 1.0
         <br />
         <span style="opacity:.7;">¿Necesitas algo más? Habla con el administrador del sistema.</span>
       </div>
@@ -1928,7 +1934,7 @@
     a.addEventListener('click', () => sidebar.classList.remove('open'));
   });
 
-  // ---------- Navegación activa por scroll ----------
+  // ---------- Navegación tipo página (solo una sección visible) ----------
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
   const currentSection = document.getElementById('current-section');
@@ -1951,29 +1957,54 @@
     tips: 'Consejos prácticos',
     faq: 'Preguntas frecuentes'
   };
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const id = entry.target.id;
-        navLinks.forEach(l => {
-          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
-        });
-        if (sectionTitles[id]) currentSection.textContent = sectionTitles[id];
-      }
-    });
-  }, { rootMargin: '-30% 0px -60% 0px' });
-  sections.forEach(s => observer.observe(s));
 
-  // ---------- Scroll suave ----------
+  function showSection(id, opts = {}) {
+    if (!sectionTitles[id]) id = 'inicio';
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    sections.forEach(s => s.classList.toggle('is-active', s === target));
+    navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + id));
+    currentSection.textContent = sectionTitles[id];
+
+    // Reinicia la animación de entrada
+    target.style.animation = 'none';
+    void target.offsetWidth;
+    target.style.animation = '';
+
+    if (opts.updateHash !== false) {
+      const newHash = '#' + id;
+      if (location.hash !== newHash) history.pushState(null, '', newHash);
+    }
+
+    // Volver al inicio del contenido
+    window.scrollTo({ top: 0, behavior: opts.smooth === false ? 'auto' : 'smooth' });
+    document.title = `${sectionTitles[id]} · Hitech`;
+  }
+
+  // Clicks en el menú lateral y cualquier enlace interno (#...)
   document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', (e) => {
-      const target = document.querySelector(link.getAttribute('href'));
-      if (target) {
+      const href = link.getAttribute('href');
+      if (href === '#' || href.length < 2) return;
+      const id = href.slice(1);
+      if (sectionTitles[id]) {
         e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        showSection(id);
+        sidebar.classList.remove('open');
       }
     });
   });
+
+  // Soporte para atrás/adelante del navegador
+  window.addEventListener('popstate', () => {
+    const id = (location.hash || '#inicio').slice(1);
+    showSection(id, { updateHash: false, smooth: false });
+  });
+
+  // Sección inicial: por hash en la URL o "inicio" por defecto
+  const initialId = (location.hash || '#inicio').slice(1);
+  showSection(initialId, { updateHash: false, smooth: false });
 
   // ---------- Tabs ----------
   document.querySelectorAll('[data-tabs]').forEach(group => {
@@ -2060,18 +2091,7 @@
     });
   });
 
-  // ---------- Animaciones de entrada ----------
-  const fadeElements = document.querySelectorAll('.card, .feature, .flow-card, .accordion, .states-diagram, .field-list');
-  fadeElements.forEach(el => el.classList.add('fade-up'));
-  const fadeObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        fadeObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  fadeElements.forEach(el => fadeObserver.observe(el));
+  // Las secciones tienen su propia animación pageIn al activarse.
 </script>
 </body>
 </html>
