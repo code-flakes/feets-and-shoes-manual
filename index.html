@@ -841,7 +841,7 @@
         </div>
 
         <div class="callout">
-          <strong>Rendimiento:</strong> los datos se almacenan unos minutos en caché para que la pantalla se cargue al instante. Si acabas de crear algo y no aparece, espera un momento o cambia de periodo para refrescar.
+          <strong>Rendimiento:</strong> los datos se almacenan durante <strong>5 minutos</strong> en caché para que la pantalla se cargue al instante. Si acabas de crear algo y no aparece, espera ese tiempo o cambia de periodo para forzar el refresco.
         </div>
       </section>
 
@@ -880,15 +880,16 @@
               <div>Fecha de nacimiento</div><div>La edad se calcula automáticamente.</div>
               <div>Teléfono y correo</div><div>Datos de contacto para notificaciones.</div>
               <div>Dirección</div><div>Domicilio del paciente.</div>
+              <div>Peso y altura</div><div>Datos biométricos generales.</div>
+              <div>Número de zapato</div><div>Talla habitual del paciente.</div>
             </div>
 
             <h4 style="margin-top:18px;">Datos clínicos</h4>
             <div class="field-list">
               <div>Campo</div><div>Descripción</div>
-              <div>Peso y altura</div><div>Datos biométricos relevantes.</div>
-              <div>Número de zapato</div><div>Talla habitual del paciente.</div>
               <div>Motivo de consulta</div><div>Por qué llegó al consultorio.</div>
               <div>Historial</div><div>Antecedentes clínicos.</div>
+              <div>Examen físico</div><div>Hallazgos durante la exploración.</div>
               <div>Diagnóstico</div><div>Conclusión del especialista.</div>
               <div>Tratamiento</div><div>Indicaciones a seguir.</div>
             </div>
@@ -1062,20 +1063,21 @@
         <div class="card">
           <div class="grid-2">
             <div>
-              <h4 style="margin-top:0;">Datos del paciente</h4>
+              <h4 style="margin-top:0;">Datos del paciente y referencia</h4>
               <ul>
                 <li>Paciente al que pertenece la orden</li>
-                <li>Altura y número de calzado</li>
-                <li>Indicaciones médicas</li>
+                <li>Oficina y usuario que la registró</li>
+                <li>Altura del paciente y número de calzado</li>
+                <li>Nombre del doctor que prescribe</li>
               </ul>
             </div>
             <div>
               <h4 style="margin-top:0;">Especificaciones técnicas</h4>
               <ul>
                 <li>Tipo de ortesis</li>
-                <li>Material de suela, tacón, cuña</li>
-                <li>Soporte y color</li>
-                <li>Observaciones del técnico</li>
+                <li>Suela, tacón, cuña, soporte y bote (canoe)</li>
+                <li>Plástico, color y otros materiales</li>
+                <li>Comentarios y observaciones del técnico</li>
               </ul>
             </div>
           </div>
@@ -1128,7 +1130,7 @@
         </div>
 
         <h3 style="margin-top:32px;">Notificaciones automáticas</h3>
-        <p>Cada vez que una orden cambia de estado, el sistema puede enviar un correo al paciente informándole del progreso. Esto reduce las llamadas de seguimiento y mantiene a todos en la misma página.</p>
+        <p>Cada vez que una orden cambia de estado, el sistema envía un correo informando del progreso. El correo llega al <strong>paciente</strong> y a la <strong>casilla interna de integraciones</strong>, lo que reduce llamadas de seguimiento y deja constancia interna del avance.</p>
       </section>
 
       <!-- ============ PEDIDOS ============ -->
@@ -1166,8 +1168,8 @@
           <li><strong>Hacer seguimiento</strong>Buscas el pedido por código, correo o documento desde el listado.</li>
         </ol>
 
-        <div class="callout warn">
-          <strong>Cambios de estado:</strong> al confirmar o denegar un pedido, el sistema pide confirmación de tu usuario. Esto evita cambios accidentales y deja registro de quién aprobó qué.
+        <div class="callout">
+          <strong>Trazabilidad:</strong> al confirmar o denegar un pedido, el sistema registra automáticamente tu usuario como responsable de la decisión. Así queda constancia de quién aprobó qué, sin pasos extra.
         </div>
       </section>
 
@@ -1326,7 +1328,7 @@
         <div class="tab-content" id="of-2">
           <div class="card">
             <h3>Servicios por oficina</h3>
-            <p>Cada oficina puede ofrecer su propio catálogo de servicios. Por ejemplo:</p>
+            <p>Cada oficina arma su propio catálogo de servicios. <strong>El sistema no trae servicios preconfigurados:</strong> cada sucursal crea desde cero los suyos según lo que ofrezca al paciente. Algunos ejemplos típicos:</p>
             <div class="grid-3">
               <div class="feature">
                 <h4>Podología clínica</h4>
@@ -1453,7 +1455,7 @@
         </div>
 
         <h3 style="margin-top:24px;">Acciones disponibles</h3>
-        <div class="grid-3">
+        <div class="grid-2">
           <div class="feature">
             <div class="feature-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
@@ -1465,20 +1467,13 @@
             <div class="feature-icon">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
             </div>
-            <h4>Editar precio</h4>
-            <p>Cambia el precio o desactiva una plantilla temporalmente.</p>
-          </div>
-          <div class="feature">
-            <div class="feature-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"></path></svg>
-            </div>
-            <h4>Eliminar</h4>
-            <p>Solo si la plantilla no está siendo usada en órdenes.</p>
+            <h4>Editar o desactivar</h4>
+            <p>Cambia nombre, precio o pásala a "no disponible" sin perder su historial.</p>
           </div>
         </div>
 
-        <div class="callout warn">
-          <strong>Mejor desactivar que eliminar:</strong> si dejas de ofrecer un modelo, márcalo como "no disponible". Conservar el modelo evita romper órdenes históricas que lo referencian.
+        <div class="callout">
+          <strong>Activar / Desactivar en lugar de borrar:</strong> los modelos no se eliminan desde el sistema; en su lugar se marcan como "no disponible". Así nunca rompemos órdenes históricas que ya los usaban.
         </div>
       </section>
 
@@ -1565,7 +1560,7 @@
           <ul>
             <li><strong>Transiciones de orden permitidas:</strong> decides qué cambios de estado puede ejecutar el rol (por ejemplo, solo el técnico puede pasar a "Finalizada").</li>
             <li><strong>Auto-asignación a pacientes:</strong> al crear un paciente, el usuario queda como referente automático.</li>
-            <li><strong>Aparece como especialista:</strong> determina si el rol puede ser seleccionado en el campo "especialista" de los pacientes.</li>
+            <li><strong>Puede ser especialista de pacientes:</strong> determina si los usuarios con este rol aparecen disponibles en el campo "especialista" al crear o editar un paciente.</li>
             <li><strong>Configuraciones de sistema:</strong> qué ajustes puede editar.</li>
           </ul>
           <div class="callout warn">
