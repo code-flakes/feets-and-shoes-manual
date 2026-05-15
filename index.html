@@ -668,13 +668,31 @@
       <div class="nav-title">Comenzar</div>
       <a class="nav-link" href="#inicio"><span class="dot"></span>Bienvenida</a>
       <a class="nav-link" href="#flujo"><span class="dot"></span>Flujo general</a>
+      <a class="nav-link" href="#dashboard"><span class="dot"></span>Dashboard</a>
     </div>
 
     <div class="nav-section">
-      <div class="nav-title">Módulos</div>
+      <div class="nav-title">Operación diaria</div>
       <a class="nav-link" href="#pacientes"><span class="dot"></span>Pacientes</a>
       <a class="nav-link" href="#ordenes"><span class="dot"></span>Órdenes</a>
+      <a class="nav-link" href="#pedidos"><span class="dot"></span>Pedidos</a>
+      <a class="nav-link" href="#calendario"><span class="dot"></span>Calendario</a>
+      <a class="nav-link" href="#notas-fisio"><span class="dot"></span>Notas de fisioterapia</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-title">Administración</div>
       <a class="nav-link" href="#oficinas"><span class="dot"></span>Oficinas</a>
+      <a class="nav-link" href="#usuarios"><span class="dot"></span>Usuarios</a>
+      <a class="nav-link" href="#plantillas"><span class="dot"></span>Plantillas</a>
+      <a class="nav-link" href="#roles"><span class="dot"></span>Roles y permisos</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-title">Personalización</div>
+      <a class="nav-link" href="#custom-fields"><span class="dot"></span>Campos personalizados</a>
+      <a class="nav-link" href="#data-views"><span class="dot"></span>Búsqueda y vistas</a>
+      <a class="nav-link" href="#historial"><span class="dot"></span>Historial</a>
     </div>
 
     <div class="nav-section">
@@ -708,7 +726,7 @@
       <!-- ============ HERO ============ -->
       <section id="inicio">
         <div class="hero">
-          <span class="hero-tag">Manual del cliente · v1.0</span>
+          <span class="hero-tag">Manual del cliente · v2.0</span>
           <h1>Bienvenido a Feets &amp; Shoes</h1>
           <p>Una guía clara y visual para sacarle el máximo provecho a tu sistema de gestión clínica y ortopédica. Aquí aprenderás a manejar pacientes, llevar el control de órdenes y administrar tus oficinas paso a paso.</p>
         </div>
@@ -775,6 +793,49 @@
 
         <div class="callout">
           <strong>En resumen:</strong> primero configuras tus <em>oficinas</em>, luego registras a tus <em>pacientes</em> en ellas, y por cada visita generas las <em>órdenes</em> necesarias. El sistema cuida que toda la información viaje sin perderse, paciente por paciente, orden por orden.
+        </div>
+      </section>
+
+      <!-- ============ DASHBOARD ============ -->
+      <section id="dashboard">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          </div>
+          <div>
+            <h2>Dashboard</h2>
+            <div class="lead">La pantalla de inicio: un vistazo rápido al estado del negocio.</div>
+          </div>
+        </div>
+
+        <p>Es la primera pantalla que ves al entrar al sistema. Reúne en un solo lugar las métricas más importantes para que sepas, de un golpe de vista, cómo va el día.</p>
+
+        <div class="grid-3">
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+            </div>
+            <h4>Métricas en vivo</h4>
+            <p>Cantidad de pacientes, órdenes y citas del periodo seleccionado.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            </div>
+            <h4>Filtro por periodo</h4>
+            <p>Hoy, semana, mes o rango de fechas personalizado.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+            </div>
+            <h4>Vista por oficina</h4>
+            <p>Si tienes varias sucursales, ves cómo va cada una.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>Rendimiento:</strong> los datos se almacenan unos minutos en caché para que la pantalla se cargue al instante. Si acabas de crear algo y no aparece, espera un momento o cambia de periodo para refrescar.
         </div>
       </section>
 
@@ -1064,6 +1125,159 @@
         <p>Cada vez que una orden cambia de estado, el sistema puede enviar un correo al paciente informándole del progreso. Esto reduce las llamadas de seguimiento y mantiene a todos en la misma página.</p>
       </section>
 
+      <!-- ============ PEDIDOS ============ -->
+      <section id="pedidos">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+          </div>
+          <div>
+            <h2>Pedidos</h2>
+            <div class="lead">Compras a proveedores que luego se transforman en órdenes de producción.</div>
+          </div>
+        </div>
+
+        <p>Mientras que una <strong>orden</strong> es un trabajo para un paciente, un <strong>pedido</strong> es una compra al proveedor (por ejemplo, un lote de plantillas). Una vez confirmado, el sistema puede generar automáticamente las órdenes asociadas para producción.</p>
+
+        <div class="card">
+          <h3>¿Qué guarda un pedido?</h3>
+          <div class="field-list">
+            <div>Campo</div><div>Descripción</div>
+            <div>Código</div><div>Referencia única del pedido.</div>
+            <div>Proveedor / Entidad</div><div>Correo y documento del proveedor o cliente.</div>
+            <div>Artículos</div><div>Tipo de plantilla, cantidad y precio unitario.</div>
+            <div>Estado</div><div>Pendiente, En revisión, Confirmado o Denegado.</div>
+            <div>Pagos</div><div>Método, referencia y estado de cada pago vinculado.</div>
+            <div>Confirmado por</div><div>Usuario que validó el pedido.</div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:24px;">Flujo típico</h3>
+        <ol class="steps">
+          <li><strong>Crear pedido</strong>Seleccionas el proveedor o cliente y agregas los artículos uno por uno.</li>
+          <li><strong>Registrar pagos</strong>Anotas cada pago recibido con su método (efectivo, transferencia, tarjeta).</li>
+          <li><strong>Confirmar</strong>Cuando todo cuadra, cambias el estado a confirmado. Esto puede disparar la creación de órdenes de producción.</li>
+          <li><strong>Hacer seguimiento</strong>Buscas el pedido por código, correo o documento desde el listado.</li>
+        </ol>
+
+        <div class="callout warn">
+          <strong>Cambios de estado:</strong> al confirmar o denegar un pedido, el sistema pide confirmación de tu usuario. Esto evita cambios accidentales y deja registro de quién aprobó qué.
+        </div>
+      </section>
+
+      <!-- ============ CALENDARIO ============ -->
+      <section id="calendario">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          </div>
+          <div>
+            <h2>Calendario y citas</h2>
+            <div class="lead">Agenda visual de citas con vistas día, semana y mes.</div>
+          </div>
+        </div>
+
+        <p>El calendario funciona como una agenda tipo Google Calendar: cada cita aparece como un bloque de color en su horario, con el paciente, la oficina y el servicio asociado.</p>
+
+        <div class="tabs" data-tabs="calendario">
+          <button class="tab active" data-tab="cal-1">Vista y filtros</button>
+          <button class="tab" data-tab="cal-2">Crear una cita</button>
+          <button class="tab" data-tab="cal-3">Estados de una cita</button>
+        </div>
+
+        <div class="tab-content active" id="cal-1">
+          <div class="card">
+            <h3>Vistas disponibles</h3>
+            <ul>
+              <li><strong>Día</strong> — todas las citas del día en orden cronológico.</li>
+              <li><strong>Semana</strong> — la grilla clásica de 7 días con bloques horarios.</li>
+              <li><strong>Mes</strong> — vista general con los días y cantidad de citas.</li>
+              <li><strong>Agenda</strong> — listado lineal de próximas citas.</li>
+            </ul>
+            <h3>Filtros</h3>
+            <ul>
+              <li>Selección múltiple de oficinas mediante checkboxes.</li>
+              <li>Salto rápido a "Hoy" desde cualquier vista.</li>
+              <li>Mini-calendario lateral para navegar entre meses.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="tab-content" id="cal-2">
+          <h3>Cómo agendar una cita</h3>
+          <ol class="steps">
+            <li><strong>Hacer clic en un hueco horario</strong>O usar el botón "+" para abrir el formulario.</li>
+            <li><strong>Seleccionar paciente</strong>Búsqueda por nombre o documento.</li>
+            <li><strong>Elegir oficina y servicio</strong>El servicio depende de los configurados en esa oficina.</li>
+            <li><strong>Confirmar hora</strong>Cada cita dura 30 minutos. El sistema impide solapamientos.</li>
+            <li><strong>Guardar</strong>El paciente recibe una notificación con los detalles.</li>
+          </ol>
+          <div class="callout">
+            <strong>Código de colores:</strong>
+            <span class="badge" style="background:#4285f410;color:#4285f4;border:1px solid #4285f430;">Reservada</span>
+            <span class="badge muted">Finalizada</span>
+            <span class="badge warn">Paciente ausente</span>
+            <span class="badge danger">Cancelada</span>
+          </div>
+        </div>
+
+        <div class="tab-content" id="cal-3">
+          <div class="card">
+            <h3>Ciclo de vida de una cita</h3>
+            <p>Cada cita pasa por una secuencia simple de estados:</p>
+            <ul>
+              <li><strong>Reservada (Booked):</strong> recién creada, esperando la fecha.</li>
+              <li><strong>Finalizada:</strong> el paciente asistió y se completó la atención.</li>
+              <li><strong>Ausente:</strong> el paciente no se presentó. Puede generar una penalización automática.</li>
+              <li><strong>Cancelada:</strong> la cita fue anulada antes del horario.</li>
+            </ul>
+          </div>
+          <div class="callout warn">
+            <strong>Política de ausencias:</strong> si marcas a un paciente como ausente, el sistema puede bloquearle temporalmente la reserva de nuevas citas según los días de penalización configurados.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ NOTAS DE FISIOTERAPIA ============ -->
+      <section id="notas-fisio">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+          </div>
+          <div>
+            <h2>Notas de fisioterapia</h2>
+            <div class="lead">Plantillas clínicas reutilizables para protocolos y evaluaciones.</div>
+          </div>
+        </div>
+
+        <p>Esta sección guarda <strong>plantillas de notas clínicas</strong> que los especialistas pueden reutilizar en distintos pacientes. Sirven para estandarizar protocolos, evaluaciones o recomendaciones que se repiten.</p>
+
+        <div class="grid-2">
+          <div class="card" style="margin-bottom:0;">
+            <h4 style="margin-top:0;">¿Qué guarda cada nota?</h4>
+            <ul>
+              <li><strong>Título:</strong> nombre corto del protocolo o evaluación.</li>
+              <li><strong>Descripción:</strong> contenido completo de la nota.</li>
+              <li><strong>Creador:</strong> usuario que registró la plantilla.</li>
+            </ul>
+          </div>
+          <div class="card" style="margin-bottom:0;">
+            <h4 style="margin-top:0;">¿Qué puedo hacer?</h4>
+            <ul>
+              <li>Crear una nueva plantilla.</li>
+              <li>Buscar por título.</li>
+              <li>Filtrar por oficina.</li>
+              <li>Editar o eliminar plantillas existentes.</li>
+              <li>Asignar plantillas a pacientes específicos.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>Por qué importa:</strong> tener notas predefinidas ahorra tiempo en cada consulta y asegura que todos los especialistas sigan los mismos criterios clínicos.
+        </div>
+      </section>
+
       <!-- ============ OFICINAS ============ -->
       <section id="oficinas">
         <div class="section-header">
@@ -1164,6 +1378,355 @@
           <div class="callout warn" style="margin-top:18px;">
             <strong>Antes de eliminar una oficina:</strong> verifica que no tenga usuarios asignados ni órdenes pendientes. El sistema bloqueará la eliminación si encuentra dependencias activas.
           </div>
+        </div>
+      </section>
+
+      <!-- ============ USUARIOS ============ -->
+      <section id="usuarios">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+          </div>
+          <div>
+            <h2>Usuarios</h2>
+            <div class="lead">Las cuentas de las personas que trabajan en el sistema.</div>
+          </div>
+        </div>
+
+        <p>Cada miembro del equipo (especialistas, recepcionistas, técnicos, administradores) tiene su propia cuenta. La cuenta determina <strong>qué puede ver y hacer</strong> dentro del sistema y a qué oficina pertenece.</p>
+
+        <div class="card">
+          <h3>Información por usuario</h3>
+          <div class="field-list">
+            <div>Campo</div><div>Descripción</div>
+            <div>Nombre y correo</div><div>Identificación básica del usuario.</div>
+            <div>Foto de perfil</div><div>Avatar que aparece en listados y notificaciones.</div>
+            <div>Rol principal</div><div>Define los permisos (ver sección de Roles).</div>
+            <div>Oficina asignada</div><div>Sucursal a la que pertenece, si aplica.</div>
+            <div>Contraseña</div><div>Se asigna al crear la cuenta y puede cambiarse en cualquier momento.</div>
+            <div>Estado</div><div>Activo o inactivo (sin borrar el historial).</div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:24px;">Buscar usuarios</h3>
+        <p>El listado de usuarios soporta <strong>búsqueda por varias palabras</strong>. Por ejemplo, si escribes <code>Juan García</code>, el sistema busca usuarios cuyo nombre contenga ambas palabras. Además puedes filtrar por:</p>
+        <ul>
+          <li>Rol (especialista, recepcionista, técnico…)</li>
+          <li>Oficina</li>
+          <li>Estado (activo / inactivo)</li>
+        </ul>
+
+        <div class="callout">
+          <strong>Alta automática:</strong> al crear una cuenta nueva, el sistema envía un correo de bienvenida al usuario con las instrucciones para acceder por primera vez.
+        </div>
+      </section>
+
+      <!-- ============ PLANTILLAS ============ -->
+      <section id="plantillas">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <div>
+            <h2>Plantillas</h2>
+            <div class="lead">El catálogo maestro de tipos de plantillas ortopédicas.</div>
+          </div>
+        </div>
+
+        <p>Aquí defines los <strong>modelos de plantilla</strong> que se pueden fabricar y vender. Cada vez que creas una orden o un pedido, eliges uno de estos modelos para asociarlo.</p>
+
+        <div class="card">
+          <h3>¿Qué guarda una plantilla?</h3>
+          <div class="field-list">
+            <div>Campo</div><div>Descripción</div>
+            <div>Nombre del modelo</div><div>Por ejemplo, "Plantilla Pronador Adulto".</div>
+            <div>Precio</div><div>Costo por unidad en la moneda configurada.</div>
+            <div>Estado</div><div>Disponible o no disponible para la venta.</div>
+            <div>Oficina</div><div>Si la plantilla se ofrece en sucursales específicas.</div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:24px;">Acciones disponibles</h3>
+        <div class="grid-3">
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </div>
+            <h4>Crear modelo</h4>
+            <p>Define un nuevo tipo de plantilla con su nombre y precio.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            </div>
+            <h4>Editar precio</h4>
+            <p>Cambia el precio o desactiva una plantilla temporalmente.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"></path></svg>
+            </div>
+            <h4>Eliminar</h4>
+            <p>Solo si la plantilla no está siendo usada en órdenes.</p>
+          </div>
+        </div>
+
+        <div class="callout warn">
+          <strong>Mejor desactivar que eliminar:</strong> si dejas de ofrecer un modelo, márcalo como "no disponible". Conservar el modelo evita romper órdenes históricas que lo referencian.
+        </div>
+      </section>
+
+      <!-- ============ ROLES ============ -->
+      <section id="roles">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+          </div>
+          <div>
+            <h2>Roles y permisos</h2>
+            <div class="lead">El sistema dinámico para controlar qué puede hacer cada persona.</div>
+          </div>
+        </div>
+
+        <p>En lugar de tener roles fijos, este sistema permite <strong>crear roles personalizados</strong> y decidir, con detalle, qué puede ver y modificar cada uno. Es la pieza más potente de la administración.</p>
+
+        <div class="tabs" data-tabs="roles">
+          <button class="tab active" data-tab="rol-1">Conceptos básicos</button>
+          <button class="tab" data-tab="rol-2">Permisos granulares</button>
+          <button class="tab" data-tab="rol-3">Condiciones globales</button>
+          <button class="tab" data-tab="rol-4">Opciones avanzadas</button>
+        </div>
+
+        <div class="tab-content active" id="rol-1">
+          <div class="card">
+            <h3>¿Qué define un rol?</h3>
+            <div class="field-list">
+              <div>Campo</div><div>Descripción</div>
+              <div>Nombre</div><div>Identificador interno del rol.</div>
+              <div>Nombre visible</div><div>Texto que ven los usuarios en la interfaz.</div>
+              <div>Descripción</div><div>Resumen de para qué sirve este rol.</div>
+              <div>Página inicial</div><div>A dónde va el usuario al iniciar sesión.</div>
+              <div>Color</div><div>Etiqueta de color para identificar el rol visualmente.</div>
+              <div>Activo</div><div>Si el rol puede asignarse a usuarios.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="rol-2">
+          <h3>Asignación de permisos</h3>
+          <p>Por cada rol decides qué <strong>acciones</strong> puede ejecutar sobre cada <strong>recurso</strong> del sistema:</p>
+          <div class="grid-2">
+            <div class="card" style="margin-bottom:0;">
+              <h4 style="margin-top:0;">Acciones posibles</h4>
+              <ul>
+                <li><span class="badge">Ver</span> consultar registros</li>
+                <li><span class="badge">Crear</span> agregar nuevos</li>
+                <li><span class="badge">Editar</span> modificar existentes</li>
+                <li><span class="badge">Eliminar</span> borrar</li>
+                <li><span class="badge">Exportar</span> descargar listados</li>
+                <li><span class="badge">Buscar</span> filtrar listados</li>
+                <li><span class="badge">Gestionar</span> control total</li>
+              </ul>
+            </div>
+            <div class="card" style="margin-bottom:0;">
+              <h4 style="margin-top:0;">Recursos del sistema</h4>
+              <ul>
+                <li>Pacientes</li>
+                <li>Órdenes</li>
+                <li>Pedidos</li>
+                <li>Citas</li>
+                <li>Oficinas y servicios</li>
+                <li>Usuarios y roles</li>
+                <li>Plantillas y catálogos</li>
+                <li>Configuraciones del sistema</li>
+              </ul>
+            </div>
+          </div>
+          <p style="margin-top:16px;">Los permisos se agrupan por categoría (CRM, POS, finanzas, sistema…) y aparecen como acordeones expandibles con un contador del total.</p>
+        </div>
+
+        <div class="tab-content" id="rol-3">
+          <h3>Condiciones globales</h3>
+          <p>Es la regla "invisible" que filtra lo que ve cada usuario automáticamente. Por ejemplo:</p>
+          <div class="callout">
+            <strong>Ejemplo:</strong> al rol <em>Especialista</em> se le pone la condición <code>office_id = office_id</code>. Eso significa que cualquier especialista verá <strong>solo</strong> los pacientes, órdenes y citas de <strong>su</strong> oficina, sin importar dónde mire dentro del sistema.
+          </div>
+          <p>También puedes definir <strong>exclusiones</strong>: por ejemplo, "los especialistas se filtran por oficina excepto en el módulo de usuarios". Esto cubre los casos donde la regla general no aplica.</p>
+        </div>
+
+        <div class="tab-content" id="rol-4">
+          <h3>Opciones avanzadas</h3>
+          <ul>
+            <li><strong>Transiciones de orden permitidas:</strong> decides qué cambios de estado puede ejecutar el rol (por ejemplo, solo el técnico puede pasar a "Finalizada").</li>
+            <li><strong>Auto-asignación a pacientes:</strong> al crear un paciente, el usuario queda como referente automático.</li>
+            <li><strong>Aparece como especialista:</strong> determina si el rol puede ser seleccionado en el campo "especialista" de los pacientes.</li>
+            <li><strong>Configuraciones de sistema:</strong> qué ajustes puede editar.</li>
+          </ul>
+          <div class="callout warn">
+            <strong>Cuidado:</strong> los roles del sistema (super admin, admin) están protegidos y no pueden eliminarse ni modificarse. Solo los roles personalizados se pueden ajustar libremente.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ CAMPOS PERSONALIZADOS ============ -->
+      <section id="custom-fields">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          </div>
+          <div>
+            <h2>Campos personalizados</h2>
+            <div class="lead">Agrega tus propios campos sin tocar nada técnico.</div>
+          </div>
+        </div>
+
+        <p>Cada clínica trabaja distinto. Por eso el sistema te deja <strong>agregar campos extra</strong> a Pacientes, Órdenes y Oficinas, sin necesidad de programar nada. Solo configuras qué campos quieres y aparecen en los formularios.</p>
+
+        <div class="card">
+          <h3>¿Qué tipos de campos puedo crear?</h3>
+          <div class="grid-2">
+            <div>
+              <ul>
+                <li><strong>Texto corto:</strong> nombre, código, referencia.</li>
+                <li><strong>Texto largo:</strong> párrafos, observaciones.</li>
+                <li><strong>Número entero:</strong> cantidades.</li>
+              </ul>
+            </div>
+            <div>
+              <ul>
+                <li><strong>Número decimal:</strong> pesos, medidas.</li>
+                <li><strong>Lista desplegable:</strong> opciones predefinidas a elegir.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:24px;">Configuración por campo</h3>
+        <div class="field-list">
+          <div>Opción</div><div>Para qué sirve</div>
+          <div>Etiqueta</div><div>El nombre que ve el usuario en el formulario.</div>
+          <div>Tipo de dato</div><div>Texto, número, decimal o lista de opciones.</div>
+          <div>Requerido</div><div>Si el campo debe llenarse obligatoriamente.</div>
+          <div>Activo</div><div>Permite ocultar el campo sin perderlo.</div>
+          <div>Posición</div><div>Orden en que aparecen los campos en el formulario.</div>
+          <div>Valor por defecto</div><div>Pre-llena el campo (solo en listas).</div>
+        </div>
+
+        <div class="callout">
+          <strong>Tres entidades, tres pestañas:</strong> al entrar al módulo verás tres pestañas — Pacientes, Órdenes y Oficinas — para configurar los campos extra de cada una por separado.
+        </div>
+
+        <div class="callout warn">
+          <strong>Límite:</strong> puedes tener hasta <strong>20 campos personalizados</strong> por entidad. Una vez que un campo tiene datos guardados, ya no podrás cambiar su tipo (pero sí su etiqueta, orden o si está activo).
+        </div>
+      </section>
+
+      <!-- ============ DATA VIEWS / BÚSQUEDA PERSONALIZADA ============ -->
+      <section id="data-views">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+          </div>
+          <div>
+            <h2>Búsqueda y vistas guardadas</h2>
+            <div class="lead">Diseña tu propio panel de pacientes y órdenes — y guárdalo para no rehacerlo.</div>
+          </div>
+        </div>
+
+        <p>Tanto en <strong>Pacientes</strong> como en <strong>Órdenes</strong>, la pantalla principal incluye una barra de herramientas potente. Puedes elegir qué columnas mostrar, qué filtros aplicar, cómo ordenar la lista y si verla como tarjetas o como tabla. Lo que configures se <strong>guarda automáticamente</strong> para tu usuario.</p>
+
+        <div class="grid-2">
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>
+            </div>
+            <h4>Elegir columnas</h4>
+            <p>Activa o desactiva las columnas que quieres ver en el listado.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+            </div>
+            <h4>Filtros avanzados</h4>
+            <p>Combina condiciones: estado igual a "en proceso", oficina = "VE01", fecha posterior a…</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+            </div>
+            <h4>Cambiar disposición</h4>
+            <p>Pasa de vista de tarjetas a tabla compacta con un clic.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path></svg>
+            </div>
+            <h4>Vistas con nombre</h4>
+            <p>Guarda una configuración con nombre ("Órdenes urgentes", "Pacientes nuevos") para reusarla cuando quieras.</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top:24px;">Cómo guardar una vista</h3>
+        <ol class="steps">
+          <li><strong>Ajusta los filtros y columnas</strong>Configura el listado como quieras dejarlo.</li>
+          <li><strong>Pulsa "Guardar vista"</strong>Asígnale un nombre claro.</li>
+          <li><strong>Cambia entre vistas</strong>Desde el desplegable de vistas guardadas las puedes alternar al instante.</li>
+          <li><strong>Exporta lo que ves</strong>Al descargar a CSV, el archivo respeta la vista activa.</li>
+        </ol>
+
+        <div class="callout">
+          <strong>Tu configuración, sin perderse:</strong> el sistema recuerda automáticamente tu última configuración por defecto (sin que la nombres). Cuando vuelves al listado, lo encuentras como lo dejaste.
+        </div>
+      </section>
+
+      <!-- ============ HISTORIAL ============ -->
+      <section id="historial">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          </div>
+          <div>
+            <h2>Historial</h2>
+            <div class="lead">Bitácora completa de cambios y notificaciones del sistema.</div>
+          </div>
+        </div>
+
+        <p>Cada vez que alguien crea, edita o cambia el estado de un paciente, una orden o un pedido, el sistema guarda una nota en el <strong>historial</strong>. Esto te permite saber <em>quién</em> hizo <em>qué</em> y <em>cuándo</em>.</p>
+
+        <div class="card">
+          <h3>Qué encontrarás</h3>
+          <ul>
+            <li>Quién creó cada registro y a qué hora.</li>
+            <li>Qué campos cambiaron (valor antes ↔ valor después).</li>
+            <li>Cambios de estado de órdenes y citas.</li>
+            <li>Notificaciones enviadas a pacientes.</li>
+            <li>Acciones administrativas (alta/baja de usuarios, cambios de rol…).</li>
+          </ul>
+        </div>
+
+        <h3 style="margin-top:24px;">Modos de vista</h3>
+        <div class="grid-2">
+          <div class="feature">
+            <h4>Historial general</h4>
+            <p>Todos los eventos del sistema. Solo accesible para administradores.</p>
+          </div>
+          <div class="feature">
+            <h4>Historial personal</h4>
+            <p>Solo los eventos relacionados con un usuario o paciente específico. Aparece en su perfil.</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top:24px;">Búsqueda</h3>
+        <p>El historial se puede filtrar por:</p>
+        <ul>
+          <li>Número de orden</li>
+          <li>Nombre del paciente</li>
+          <li>Correo o documento</li>
+          <li>Oficina</li>
+        </ul>
+
+        <div class="callout">
+          <strong>Tip:</strong> al hacer clic en cualquier evento del historial, el sistema te lleva directamente al registro afectado (la orden, el paciente, el pedido). Es la forma más rápida de "deshacer mentalmente" un cambio: ves qué pasó y vas al origen con un solo clic.
         </div>
       </section>
 
@@ -1289,7 +1852,42 @@
         <details class="accordion">
           <summary>¿Quién puede cambiar los estados de las órdenes?</summary>
           <div class="accordion-body">
-            <p>Solo los usuarios con permisos de gestión de órdenes (típicamente especialistas, técnicos y administradores). Los pacientes pueden ver el estado pero no modificarlo.</p>
+            <p>Solo los usuarios con permisos de gestión de órdenes (típicamente especialistas, técnicos y administradores). Los pacientes pueden ver el estado pero no modificarlo. Esto se controla desde el módulo de <a href="#roles">Roles y permisos</a>.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>¿Cuál es la diferencia entre una "orden" y un "pedido"?</summary>
+          <div class="accordion-body">
+            <p>Una <strong>orden</strong> es un trabajo de fabricación para un paciente específico (una plantilla a medida, por ejemplo). Un <strong>pedido</strong> es una compra a un proveedor o lote de plantillas. Cuando un pedido se confirma, suele generar órdenes de producción asociadas.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>Necesito un campo que el sistema no tiene. ¿Qué hago?</summary>
+          <div class="accordion-body">
+            <p>Usa los <a href="#custom-fields">Campos personalizados</a>. Puedes agregar hasta 20 campos extra por entidad (pacientes, órdenes u oficinas), eligiendo el tipo de dato (texto, número, lista de opciones) sin escribir una sola línea de código.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>Cada usuario quiere ver el listado de pacientes a su manera. ¿Es posible?</summary>
+          <div class="accordion-body">
+            <p>Sí. La <a href="#data-views">Búsqueda y vistas guardadas</a> permite que cada usuario configure qué columnas ve, qué filtros aplica y cómo ordena. El sistema recuerda automáticamente su última configuración y permite guardar "vistas con nombre" para alternar entre ellas.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>¿Cómo controlo que un especialista solo vea pacientes de su oficina?</summary>
+          <div class="accordion-body">
+            <p>Eso se hace con las <strong>condiciones globales</strong> en el rol del especialista (módulo <a href="#roles">Roles y permisos</a>). Una vez configuradas, el sistema filtra automáticamente todo lo que ese usuario ve en cualquier pantalla.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>¿Puedo saber quién modificó una orden?</summary>
+          <div class="accordion-body">
+            <p>Sí. Entra al módulo <a href="#historial">Historial</a> o al perfil del usuario o paciente involucrado. Cada cambio queda registrado con quién, qué y cuándo. Al hacer clic en un evento del historial, el sistema te lleva directo al registro afectado.</p>
           </div>
         </details>
       </section>
@@ -1337,9 +1935,19 @@
   const sectionTitles = {
     inicio: 'Bienvenida',
     flujo: 'Flujo general',
+    dashboard: 'Dashboard',
     pacientes: 'Pacientes',
     ordenes: 'Órdenes',
+    pedidos: 'Pedidos',
+    calendario: 'Calendario',
+    'notas-fisio': 'Notas de fisioterapia',
     oficinas: 'Oficinas',
+    usuarios: 'Usuarios',
+    plantillas: 'Plantillas',
+    roles: 'Roles y permisos',
+    'custom-fields': 'Campos personalizados',
+    'data-views': 'Búsqueda y vistas',
+    historial: 'Historial',
     tips: 'Consejos prácticos',
     faq: 'Preguntas frecuentes'
   };
