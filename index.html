@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Manual del Sistema · Feets and Shoes</title>
+<meta name="description" content="Guía completa de uso del sistema Feets and Shoes para gestionar pacientes, órdenes y oficinas." />
+<style>
+  /* ---------- Variables / Tema ---------- */
+  :root {
+    --bg: #f7f8fb;
+    --surface: #ffffff;
+    --surface-2: #fbfbfd;
+    --border: #e6e8ef;
+    --text: #1c2433;
+    --text-soft: #5a6478;
+    --muted: #8a93a6;
+    --primary: #0f766e;
+    --primary-soft: #d3f1ec;
+    --primary-deep: #0b5a54;
+    --accent: #7c3aed;
+    --warn: #d97706;
+    --danger: #dc2626;
+    --success: #16a34a;
+    --shadow-sm: 0 1px 2px rgba(20, 30, 50, .06), 0 1px 1px rgba(20,30,50,.04);
+    --shadow-md: 0 6px 18px rgba(20, 30, 50, .07), 0 2px 6px rgba(20,30,50,.05);
+    --radius: 14px;
+    --radius-sm: 10px;
+    --transition: .22s cubic-bezier(.4,.0,.2,1);
+  }
+  [data-theme="dark"] {
+    --bg: #0e1320;
+    --surface: #161c2c;
+    --surface-2: #1c2438;
+    --border: #2a3349;
+    --text: #e7ecf5;
+    --text-soft: #a9b3c8;
+    --muted: #7a849c;
+    --primary: #2dd4bf;
+    --primary-soft: #0d3b37;
+    --primary-deep: #14b8a6;
+    --accent: #a78bfa;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,.4);
+    --shadow-md: 0 8px 22px rgba(0,0,0,.45);
+  }
+
+  /* ---------- Base ---------- */
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    transition: background var(--transition), color var(--transition);
+  }
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  h1, h2, h3, h4 { line-height: 1.25; margin: 0 0 .6em; color: var(--text); letter-spacing: -.01em; }
+  h1 { font-size: 2.1rem; font-weight: 700; }
+  h2 { font-size: 1.55rem; font-weight: 650; margin-top: 0; }
+  h3 { font-size: 1.15rem; font-weight: 600; }
+  p { margin: 0 0 1em; color: var(--text-soft); }
+  ul, ol { color: var(--text-soft); padding-left: 1.2em; }
+  li { margin-bottom: .35em; }
+  code {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1px 6px;
+    font-family: "SF Mono", Menlo, Consolas, monospace;
+    font-size: .88em;
+    color: var(--text);
+  }
+
+  /* ---------- Layout ---------- */
+  .app {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+  }
+
+  /* ---------- Sidebar ---------- */
+  .sidebar {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 24px 18px;
+    overflow-y: auto;
+    transition: transform var(--transition), background var(--transition);
+    z-index: 20;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0 6px 22px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 18px;
+  }
+  .brand-logo {
+    width: 40px; height: 40px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    display: grid; place-items: center;
+    color: white;
+    font-weight: 700;
+    box-shadow: var(--shadow-md);
+  }
+  .brand-name { font-weight: 700; color: var(--text); font-size: 1.02rem; }
+  .brand-sub { font-size: .78rem; color: var(--muted); }
+
+  .search {
+    position: relative;
+    margin-bottom: 18px;
+  }
+  .search input {
+    width: 100%;
+    padding: 10px 14px 10px 38px;
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-size: .92rem;
+    outline: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+  .search input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+  }
+  .search svg {
+    position: absolute;
+    left: 12px; top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+  }
+
+  .nav-section {
+    margin-bottom: 22px;
+  }
+  .nav-title {
+    font-size: .7rem;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    font-weight: 700;
+    color: var(--muted);
+    padding: 0 8px;
+    margin-bottom: 6px;
+  }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    color: var(--text-soft);
+    font-size: .94rem;
+    text-decoration: none;
+    margin-bottom: 2px;
+    transition: background var(--transition), color var(--transition);
+  }
+  .nav-link:hover {
+    background: var(--surface-2);
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-link.active {
+    background: var(--primary-soft);
+    color: var(--primary-deep);
+    font-weight: 600;
+  }
+  [data-theme="dark"] .nav-link.active { color: var(--primary); }
+  .nav-link .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+  .nav-link.active .dot { background: var(--primary); }
+
+  /* ---------- Main ---------- */
+  .main {
+    padding: 0;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  .topbar {
+    position: sticky; top: 0;
+    background: rgba(255,255,255,.85);
+    backdrop-filter: saturate(180%) blur(10px);
+    -webkit-backdrop-filter: saturate(180%) blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 15;
+  }
+  [data-theme="dark"] .topbar { background: rgba(14,19,32,.85); }
+  .breadcrumb {
+    font-size: .9rem;
+    color: var(--muted);
+  }
+  .breadcrumb b { color: var(--text); font-weight: 600; }
+  .topbar-actions { display: flex; gap: 8px; align-items: center; }
+  .icon-btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-soft);
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    display: grid; place-items: center;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+  .icon-btn:hover {
+    color: var(--primary);
+    border-color: var(--primary);
+  }
+
+  .content {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 40px 32px 80px;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+    border-radius: 22px;
+    padding: 44px 40px;
+    color: white;
+    margin-bottom: 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+  }
+  .hero::before, .hero::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,.08);
+    pointer-events: none;
+  }
+  .hero::before { width: 280px; height: 280px; right: -80px; top: -80px; }
+  .hero::after { width: 180px; height: 180px; right: 90px; bottom: -60px; }
+  .hero h1 { color: white; font-size: 2.4rem; margin-bottom: 12px; position: relative; }
+  .hero p { color: rgba(255,255,255,.92); font-size: 1.05rem; max-width: 580px; position: relative; }
+  .hero-tag {
+    display: inline-block;
+    background: rgba(255,255,255,.18);
+    border: 1px solid rgba(255,255,255,.3);
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: .8rem;
+    margin-bottom: 14px;
+    position: relative;
+    font-weight: 500;
+  }
+
+  /* ---------- Section ---------- */
+  section {
+    margin-bottom: 60px;
+    scroll-margin-top: 90px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    background: var(--primary-soft);
+    color: var(--primary-deep);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  [data-theme="dark"] .section-icon { color: var(--primary); }
+  .section-header h2 { margin: 0; }
+  .section-header .lead { color: var(--muted); font-size: .9rem; margin-top: 2px; }
+
+  /* ---------- Cards ---------- */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition), transform var(--transition);
+  }
+  .card:hover { box-shadow: var(--shadow-md); }
+  .card h3 { margin-top: 0; }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  @media (max-width: 760px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  .feature {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 20px;
+    transition: all var(--transition);
+  }
+  .feature:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .feature-icon {
+    width: 36px; height: 36px;
+    border-radius: 9px;
+    background: var(--primary-soft);
+    color: var(--primary-deep);
+    display: grid; place-items: center;
+    margin-bottom: 12px;
+  }
+  [data-theme="dark"] .feature-icon { color: var(--primary); }
+  .feature h4 { margin: 0 0 6px; font-size: 1rem; }
+  .feature p { font-size: .88rem; margin: 0; color: var(--text-soft); }
+
+  /* ---------- Tabs ---------- */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 22px;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 10px 16px;
+    border: none;
+    background: none;
+    color: var(--text-soft);
+    font-size: .94rem;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all var(--transition);
+    font-family: inherit;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+  .tab-content { display: none; animation: fadeIn .3s ease; }
+  .tab-content.active { display: block; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+
+  /* ---------- Accordion ---------- */
+  .accordion {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .accordion summary {
+    list-style: none;
+    cursor: pointer;
+    padding: 16px 20px;
+    font-weight: 600;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background var(--transition);
+  }
+  .accordion summary:hover { background: var(--surface-2); }
+  .accordion summary::-webkit-details-marker { display: none; }
+  .accordion summary::after {
+    content: '+';
+    color: var(--muted);
+    font-size: 1.4rem;
+    font-weight: 300;
+    transition: transform var(--transition);
+    margin-left: 10px;
+  }
+  .accordion[open] summary::after { content: '−'; }
+  .accordion-body {
+    padding: 0 20px 18px;
+    color: var(--text-soft);
+  }
+  .accordion-body p:last-child { margin-bottom: 0; }
+
+  /* ---------- Step list ---------- */
+  .steps { counter-reset: step; padding: 0; list-style: none; }
+  .steps li {
+    counter-increment: step;
+    padding: 16px 18px 16px 56px;
+    border-left: 2px solid var(--border);
+    margin-left: 18px;
+    position: relative;
+    color: var(--text-soft);
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: -16px;
+    top: 14px;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: white;
+    display: grid; place-items: center;
+    font-weight: 700;
+    font-size: .85rem;
+    box-shadow: var(--shadow-sm);
+  }
+  .steps li strong { color: var(--text); display: block; margin-bottom: 4px; }
+
+  /* ---------- Estado de Órdenes (Diagrama interactivo) ---------- */
+  .states-diagram {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+  .states-flow {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 22px;
+  }
+  .state-chip {
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 2px solid var(--border);
+    background: var(--surface-2);
+    color: var(--text-soft);
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .state-chip .state-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+  .state-chip:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+  }
+  .state-chip.active {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    color: var(--primary-deep);
+    box-shadow: 0 0 0 4px rgba(15,118,110,.15);
+  }
+  [data-theme="dark"] .state-chip.active { color: var(--primary); }
+  .state-chip.active .state-dot { background: var(--primary); }
+  .state-arrow {
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  .state-detail {
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    padding: 20px 22px;
+    border-left: 4px solid var(--primary);
+    min-height: 100px;
+  }
+  .state-detail h4 {
+    margin: 0 0 6px;
+    color: var(--primary);
+  }
+  [data-theme="dark"] .state-detail h4 { color: var(--primary); }
+  .state-detail p { margin: 0 0 8px; }
+  .state-detail .when {
+    font-size: .8rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    font-weight: 600;
+  }
+
+  /* ---------- Badges ---------- */
+  .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: .75rem;
+    font-weight: 600;
+    background: var(--primary-soft);
+    color: var(--primary-deep);
+  }
+  [data-theme="dark"] .badge { color: var(--primary); }
+  .badge.warn { background: rgba(217,119,6,.12); color: var(--warn); }
+  .badge.danger { background: rgba(220,38,38,.12); color: var(--danger); }
+  .badge.muted { background: var(--surface-2); color: var(--muted); border: 1px solid var(--border); }
+
+  /* ---------- Callout ---------- */
+  .callout {
+    background: var(--primary-soft);
+    border-left: 4px solid var(--primary);
+    padding: 16px 20px;
+    border-radius: 10px;
+    color: var(--text);
+    margin-bottom: 18px;
+  }
+  [data-theme="dark"] .callout { background: rgba(45,212,191,.08); }
+  .callout strong { color: var(--primary-deep); }
+  [data-theme="dark"] .callout strong { color: var(--primary); }
+  .callout.warn { background: rgba(217,119,6,.08); border-left-color: var(--warn); }
+  .callout.warn strong { color: var(--warn); }
+
+  /* ---------- Tabla de datos ---------- */
+  .field-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .field-list > div {
+    background: var(--surface);
+    padding: 12px 16px;
+    font-size: .9rem;
+  }
+  .field-list > div:first-child,
+  .field-list > div:nth-child(2) {
+    background: var(--surface-2);
+    font-weight: 600;
+    color: var(--text);
+    font-size: .82rem;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+  }
+  @media (max-width: 600px) {
+    .field-list { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Flujo general ---------- */
+  .flow-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin: 24px 0;
+    position: relative;
+  }
+  .flow-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 22px;
+    text-align: center;
+    position: relative;
+    margin: 0 14px;
+    transition: all var(--transition);
+  }
+  .flow-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+  }
+  .flow-card .num {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    color: white;
+    display: grid; place-items: center;
+    margin: 0 auto 12px;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+  .flow-card h4 { margin: 0 0 6px; font-size: 1.05rem; }
+  .flow-card p { font-size: .86rem; margin: 0; }
+  @media (max-width: 760px) {
+    .flow-cards { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Mobile ---------- */
+  .menu-toggle {
+    display: none;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    width: 38px; height: 38px;
+    border-radius: 9px;
+    cursor: pointer;
+  }
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; }
+    .sidebar {
+      position: fixed;
+      left: 0; top: 0;
+      width: 280px;
+      transform: translateX(-100%);
+      box-shadow: var(--shadow-md);
+    }
+    .sidebar.open { transform: translateX(0); }
+    .menu-toggle { display: grid; place-items: center; }
+    .content { padding: 24px 18px 60px; }
+    .topbar { padding: 12px 18px; }
+    .hero { padding: 32px 24px; }
+    .hero h1 { font-size: 1.7rem; }
+  }
+
+  /* ---------- Footer ---------- */
+  .footer {
+    text-align: center;
+    color: var(--muted);
+    padding: 32px 20px;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+    font-size: .85rem;
+  }
+
+  /* ---------- Animaciones de entrada ---------- */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity .5s ease, transform .5s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* ---------- Impresión ---------- */
+  @media print {
+    .sidebar, .topbar, .icon-btn, .menu-toggle { display: none !important; }
+    .app { grid-template-columns: 1fr; }
+    .content { max-width: 100%; padding: 0; }
+    .card, .feature, .accordion { break-inside: avoid; }
+    .hero { background: white; color: black; box-shadow: none; }
+    .hero h1, .hero p { color: black; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ SIDEBAR ============ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-logo">F&amp;S</div>
+      <div>
+        <div class="brand-name">Feets &amp; Shoes</div>
+        <div class="brand-sub">Manual de usuario</div>
+      </div>
+    </div>
+
+    <div class="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      <input type="text" id="search-input" placeholder="Buscar en el manual..." />
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-title">Comenzar</div>
+      <a class="nav-link" href="#inicio"><span class="dot"></span>Bienvenida</a>
+      <a class="nav-link" href="#flujo"><span class="dot"></span>Flujo general</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-title">Módulos</div>
+      <a class="nav-link" href="#pacientes"><span class="dot"></span>Pacientes</a>
+      <a class="nav-link" href="#ordenes"><span class="dot"></span>Órdenes</a>
+      <a class="nav-link" href="#oficinas"><span class="dot"></span>Oficinas</a>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-title">Recursos</div>
+      <a class="nav-link" href="#tips"><span class="dot"></span>Consejos prácticos</a>
+      <a class="nav-link" href="#faq"><span class="dot"></span>Preguntas frecuentes</a>
+    </div>
+  </aside>
+
+  <!-- ============ MAIN ============ -->
+  <main class="main">
+    <div class="topbar">
+      <div style="display:flex; align-items:center; gap:12px;">
+        <button class="menu-toggle" id="menu-toggle" aria-label="Abrir menú">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+        </button>
+        <div class="breadcrumb">Manual · <b id="current-section">Bienvenida</b></div>
+      </div>
+      <div class="topbar-actions">
+        <button class="icon-btn" id="print-btn" title="Imprimir manual" aria-label="Imprimir">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        </button>
+        <button class="icon-btn" id="theme-btn" title="Cambiar tema" aria-label="Tema">
+          <svg id="icon-sun" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="content">
+
+      <!-- ============ HERO ============ -->
+      <section id="inicio">
+        <div class="hero">
+          <span class="hero-tag">Manual del cliente · v1.0</span>
+          <h1>Bienvenido a Feets &amp; Shoes</h1>
+          <p>Una guía clara y visual para sacarle el máximo provecho a tu sistema de gestión clínica y ortopédica. Aquí aprenderás a manejar pacientes, llevar el control de órdenes y administrar tus oficinas paso a paso.</p>
+        </div>
+
+        <h2 style="margin-top:10px;">¿Qué encontrarás en este manual?</h2>
+        <p>Este documento está pensado para personas que usan el sistema día a día, sin importar su perfil técnico. Cada sección explica <strong>qué se puede hacer</strong>, <strong>cómo hacerlo</strong> y <strong>qué tener en cuenta</strong>.</p>
+
+        <div class="grid-3">
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <h4>Pacientes</h4>
+            <p>Cómo registrar y gestionar pacientes, adjuntar estudios y mantener su información clínica al día.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="15" x2="15" y2="15"></line></svg>
+            </div>
+            <h4>Órdenes</h4>
+            <p>Crear órdenes de trabajo, hacer seguimiento de su estado y gestionar entregas a pacientes.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </div>
+            <h4>Oficinas</h4>
+            <p>Configurar sucursales, servicios y mantener cada oficina conectada al resto del sistema.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FLUJO GENERAL ============ -->
+      <section id="flujo">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+          </div>
+          <div>
+            <h2>Flujo general del sistema</h2>
+            <div class="lead">Cómo se conectan oficinas, pacientes y órdenes en el día a día.</div>
+          </div>
+        </div>
+
+        <p>El sistema gira en torno a tres piezas que trabajan juntas. Antes de profundizar en cada módulo, conviene entender cómo se relacionan:</p>
+
+        <div class="flow-cards">
+          <div class="flow-card">
+            <div class="num">1</div>
+            <h4>Oficina</h4>
+            <p>Cada sucursal o sede donde atiendes pacientes. Es el punto de partida.</p>
+          </div>
+          <div class="flow-card">
+            <div class="num">2</div>
+            <h4>Paciente</h4>
+            <p>La persona que asiste a tu oficina y para quien crearás órdenes de trabajo.</p>
+          </div>
+          <div class="flow-card">
+            <div class="num">3</div>
+            <h4>Orden</h4>
+            <p>El trabajo concreto (plantilla, ortesis, ajuste) que se fabrica y entrega.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>En resumen:</strong> primero configuras tus <em>oficinas</em>, luego registras a tus <em>pacientes</em> en ellas, y por cada visita generas las <em>órdenes</em> necesarias. El sistema cuida que toda la información viaje sin perderse, paciente por paciente, orden por orden.
+        </div>
+      </section>
+
+      <!-- ============ PACIENTES ============ -->
+      <section id="pacientes">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          </div>
+          <div>
+            <h2>Pacientes</h2>
+            <div class="lead">El corazón del sistema — toda la información de las personas que atiendes.</div>
+          </div>
+        </div>
+
+        <p>Los pacientes son el centro de la operación. Cada ficha guarda los datos personales, clínicos y de contacto, además de un historial de todas las órdenes y estudios médicos asociados.</p>
+
+        <div class="tabs" data-tabs="pacientes">
+          <button class="tab active" data-tab="pac-1">¿Qué se guarda?</button>
+          <button class="tab" data-tab="pac-2">Acciones disponibles</button>
+          <button class="tab" data-tab="pac-3">Cómo registrar uno</button>
+          <button class="tab" data-tab="pac-4">Documentos y estudios</button>
+        </div>
+
+        <div class="tab-content active" id="pac-1">
+          <div class="card">
+            <h3>Información completa por paciente</h3>
+            <p>Cada ficha de paciente captura tres bloques de información:</p>
+
+            <h4 style="margin-top:18px;">Datos personales</h4>
+            <div class="field-list">
+              <div>Campo</div><div>Descripción</div>
+              <div>Nombre completo</div><div>Nombre y apellidos del paciente.</div>
+              <div>Documento</div><div>Tipo y número (cédula, pasaporte, etc.).</div>
+              <div>País</div><div>País de origen o residencia.</div>
+              <div>Fecha de nacimiento</div><div>La edad se calcula automáticamente.</div>
+              <div>Teléfono y correo</div><div>Datos de contacto para notificaciones.</div>
+              <div>Dirección</div><div>Domicilio del paciente.</div>
+            </div>
+
+            <h4 style="margin-top:18px;">Datos clínicos</h4>
+            <div class="field-list">
+              <div>Campo</div><div>Descripción</div>
+              <div>Peso y altura</div><div>Datos biométricos relevantes.</div>
+              <div>Número de zapato</div><div>Talla habitual del paciente.</div>
+              <div>Motivo de consulta</div><div>Por qué llegó al consultorio.</div>
+              <div>Historial</div><div>Antecedentes clínicos.</div>
+              <div>Diagnóstico</div><div>Conclusión del especialista.</div>
+              <div>Tratamiento</div><div>Indicaciones a seguir.</div>
+            </div>
+
+            <h4 style="margin-top:18px;">Datos de gestión</h4>
+            <div class="field-list">
+              <div>Campo</div><div>Descripción</div>
+              <div>Oficina</div><div>Sucursal donde se atiende al paciente.</div>
+              <div>Especialista</div><div>Médico tratante asignado.</div>
+              <div>Recepcionista</div><div>Persona que registró al paciente.</div>
+              <div>Doctor</div><div>Nombre del doctor de referencia externo.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="pac-2">
+          <div class="grid-2">
+            <div class="feature">
+              <div class="feature-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+              </div>
+              <h4>Crear paciente</h4>
+              <p>Registra un nuevo paciente desde cero con sus datos personales, clínicos y de contacto.</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              </div>
+              <h4>Buscar paciente</h4>
+              <p>Encuentra a cualquier paciente por nombre o número de documento desde el listado.</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+              </div>
+              <h4>Editar información</h4>
+              <p>Actualiza cualquier dato del paciente en cualquier momento.</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+              </div>
+              <h4>Adjuntar estudios</h4>
+              <p>Sube hasta 10 archivos por paciente: PDF, imágenes, Excel y más.</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+              </div>
+              <h4>Enviar por correo</h4>
+              <p>Envía los estudios médicos directamente al correo del paciente.</p>
+            </div>
+            <div class="feature">
+              <div class="feature-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+              </div>
+              <h4>Imprimir ficha</h4>
+              <p>Genera un PDF con la información completa del paciente.</p>
+            </div>
+          </div>
+
+          <div class="callout warn">
+            <strong>Importante:</strong> un paciente no puede eliminarse si ya tiene órdenes asociadas. Antes de borrarlo, asegúrate de que su historial esté cerrado.
+          </div>
+        </div>
+
+        <div class="tab-content" id="pac-3">
+          <h3>Paso a paso: registrar un paciente</h3>
+          <ol class="steps">
+            <li><strong>Abrir el módulo Pacientes</strong>Desde el menú principal, entra a la sección de Pacientes.</li>
+            <li><strong>Pulsar "Nuevo paciente"</strong>El botón abre el formulario de registro.</li>
+            <li><strong>Completar los datos personales</strong>Nombre, documento, fecha de nacimiento y contacto.</li>
+            <li><strong>Asignar oficina y especialista</strong>Selecciona la sucursal y el médico responsable.</li>
+            <li><strong>Cargar información clínica</strong>Motivo de consulta, antecedentes y observaciones médicas.</li>
+            <li><strong>Guardar</strong>El sistema confirma el registro y abre la ficha completa del paciente.</li>
+          </ol>
+
+          <div class="callout">
+            <strong>Tip:</strong> si el paciente va a usar la app móvil, asegúrate de capturar correctamente su correo electrónico — desde allí se le envía la invitación de acceso.
+          </div>
+        </div>
+
+        <div class="tab-content" id="pac-4">
+          <h3>Documentos y estudios médicos</h3>
+          <p>Cada paciente puede tener hasta <strong>10 archivos adjuntos</strong>. Esto incluye análisis, radiografías, estudios médicos y otros documentos relevantes.</p>
+
+          <div class="grid-2">
+            <div class="card" style="margin-bottom:0;">
+              <h4 style="margin-top:0;">Formatos aceptados</h4>
+              <ul>
+                <li>Documentos PDF</li>
+                <li>Imágenes (JPG, PNG)</li>
+                <li>Hojas de cálculo Excel</li>
+                <li>Documentos de texto</li>
+              </ul>
+            </div>
+            <div class="card" style="margin-bottom:0;">
+              <h4 style="margin-top:0;">Acciones disponibles</h4>
+              <ul>
+                <li>Subir nuevos archivos</li>
+                <li>Ver / descargar</li>
+                <li>Reenviar por correo</li>
+                <li>Eliminar archivos antiguos</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="callout warn" style="margin-top:18px;">
+            <strong>Cuidado con el tamaño:</strong> al enviar por correo, el sistema valida que los archivos no superen un tamaño máximo. Si te bloquea, prueba reduciendo el peso del PDF o comprimiendo la imagen.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ ÓRDENES ============ -->
+      <section id="ordenes">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          </div>
+          <div>
+            <h2>Órdenes</h2>
+            <div class="lead">Cada trabajo de fabricación, su seguimiento y entrega.</div>
+          </div>
+        </div>
+
+        <p>Una <strong>orden</strong> es el encargo concreto de fabricación para un paciente: una plantilla, una ortesis, un ajuste. Cada orden vive un ciclo claro desde que se crea hasta que se entrega.</p>
+
+        <h3>Ciclo de vida de una orden</h3>
+        <p>Haz clic sobre cada estado para ver qué significa y cuándo se aplica:</p>
+
+        <div class="states-diagram">
+          <div class="states-flow" id="states-flow">
+            <button class="state-chip active" data-state="esperando">
+              <span class="state-dot"></span>Esperando
+            </button>
+            <span class="state-arrow">→</span>
+            <button class="state-chip" data-state="recibida">
+              <span class="state-dot"></span>Recibida
+            </button>
+            <span class="state-arrow">→</span>
+            <button class="state-chip" data-state="proceso">
+              <span class="state-dot"></span>En proceso
+            </button>
+            <span class="state-arrow">→</span>
+            <button class="state-chip" data-state="finalizada">
+              <span class="state-dot"></span>Finalizada
+            </button>
+            <span class="state-arrow">→</span>
+            <button class="state-chip" data-state="lista">
+              <span class="state-dot"></span>Lista para entrega
+            </button>
+            <span class="state-arrow">→</span>
+            <button class="state-chip" data-state="entregada">
+              <span class="state-dot"></span>Entregada
+            </button>
+          </div>
+
+          <div class="state-detail" id="state-detail">
+            <div class="when">Estado inicial</div>
+            <h4>Esperando</h4>
+            <p>La orden acaba de crearse y aún no ha entrado al taller. Es el punto de partida.</p>
+            <p><strong>Acción típica:</strong> el técnico revisa la orden y confirma su recepción.</p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>Revertir órdenes:</strong> si necesitas hacer una corrección, el sistema permite devolver una orden al estado inicial para reiniciar el flujo. Cada cambio de estado queda registrado y, si corresponde, se notifica automáticamente al paciente.
+        </div>
+
+        <h3 style="margin-top:32px;">¿Qué se guarda en una orden?</h3>
+        <div class="card">
+          <div class="grid-2">
+            <div>
+              <h4 style="margin-top:0;">Datos del paciente</h4>
+              <ul>
+                <li>Paciente al que pertenece la orden</li>
+                <li>Altura y número de calzado</li>
+                <li>Indicaciones médicas</li>
+              </ul>
+            </div>
+            <div>
+              <h4 style="margin-top:0;">Especificaciones técnicas</h4>
+              <ul>
+                <li>Tipo de ortesis</li>
+                <li>Material de suela, tacón, cuña</li>
+                <li>Soporte y color</li>
+                <li>Observaciones del técnico</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <h3 style="margin-top:32px;">Acciones disponibles</h3>
+        <div class="grid-3">
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </div>
+            <h4>Crear orden</h4>
+            <p>Selecciona el paciente y define todas las especificaciones técnicas.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+            </div>
+            <h4>Cambiar estado</h4>
+            <p>Avanza la orden por su ciclo de vida con un par de clics.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <h4>Buscar órdenes</h4>
+            <p>Filtra por número, paciente o estado actual.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+            </div>
+            <h4>Adjuntar archivos</h4>
+            <p>Sube planos, fotos o referencias técnicas a cada orden.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            </div>
+            <h4>Imprimir orden</h4>
+            <p>Genera un PDF con todos los detalles para el taller.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            </div>
+            <h4>Exportar a CSV</h4>
+            <p>Descarga el listado completo para análisis externo.</p>
+          </div>
+        </div>
+
+        <h3 style="margin-top:32px;">Notificaciones automáticas</h3>
+        <p>Cada vez que una orden cambia de estado, el sistema puede enviar un correo al paciente informándole del progreso. Esto reduce las llamadas de seguimiento y mantiene a todos en la misma página.</p>
+      </section>
+
+      <!-- ============ OFICINAS ============ -->
+      <section id="oficinas">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          </div>
+          <div>
+            <h2>Oficinas</h2>
+            <div class="lead">Las sucursales que organizan tu operación.</div>
+          </div>
+        </div>
+
+        <p>Cada <strong>oficina</strong> representa una sucursal, sede o centro de distribución. Es la pieza que agrupa a los usuarios, pacientes y órdenes de una misma ubicación.</p>
+
+        <div class="tabs" data-tabs="oficinas">
+          <button class="tab active" data-tab="of-1">Datos clave</button>
+          <button class="tab" data-tab="of-2">Servicios</button>
+          <button class="tab" data-tab="of-3">Estadísticas</button>
+        </div>
+
+        <div class="tab-content active" id="of-1">
+          <div class="card">
+            <h3>¿Qué guarda cada oficina?</h3>
+            <div class="field-list">
+              <div>Campo</div><div>Descripción</div>
+              <div>Código</div><div>Identificador corto único (por ejemplo, <code>VE01</code>).</div>
+              <div>Nombre / Ubicación</div><div>Ciudad o referencia de la sucursal.</div>
+              <div>País</div><div>País donde opera la oficina.</div>
+              <div>Dirección</div><div>Dirección física completa.</div>
+              <div>Orden inicial</div><div>Número desde el que arranca la numeración de órdenes.</div>
+              <div>Visible en app</div><div>Si la sucursal aparece en la app móvil para los pacientes.</div>
+            </div>
+
+            <div class="callout" style="margin-top:18px;">
+              <strong>Numeración por sucursal:</strong> cada oficina puede tener su propia secuencia de números de orden. Esto facilita operar de forma independiente sin que se mezclen los conteos.
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-content" id="of-2">
+          <div class="card">
+            <h3>Servicios por oficina</h3>
+            <p>Cada oficina puede ofrecer su propio catálogo de servicios. Por ejemplo:</p>
+            <div class="grid-3">
+              <div class="feature">
+                <h4>Podología clínica</h4>
+                <p>Atención general de pie y tobillo.</p>
+              </div>
+              <div class="feature">
+                <h4>Ortesis deportiva</h4>
+                <p>Plantillas específicas para atletas.</p>
+              </div>
+              <div class="feature">
+                <h4>Ortesis pediátrica</h4>
+                <p>Soluciones diseñadas para niños.</p>
+              </div>
+            </div>
+            <p style="margin-top:16px;">Los servicios pueden añadirse, editarse o quitarse desde la ficha de cada oficina sin afectar al resto del sistema.</p>
+          </div>
+        </div>
+
+        <div class="tab-content" id="of-3">
+          <div class="card">
+            <h3>Panel de gestión</h3>
+            <p>Al entrar a una oficina, verás en tiempo real:</p>
+            <div class="grid-2">
+              <div class="feature">
+                <div class="feature-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                </div>
+                <h4>Pacientes atendidos</h4>
+                <p>Total acumulado en la sucursal.</p>
+              </div>
+              <div class="feature">
+                <div class="feature-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+                </div>
+                <h4>Órdenes generadas</h4>
+                <p>Total de trabajos asociados a la oficina.</p>
+              </div>
+              <div class="feature">
+                <div class="feature-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </div>
+                <h4>Usuarios asignados</h4>
+                <p>Especialistas, recepcionistas y técnicos.</p>
+              </div>
+              <div class="feature">
+                <div class="feature-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                </div>
+                <h4>Servicios disponibles</h4>
+                <p>Catálogo activo en esa sucursal.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="callout warn" style="margin-top:18px;">
+            <strong>Antes de eliminar una oficina:</strong> verifica que no tenga usuarios asignados ni órdenes pendientes. El sistema bloqueará la eliminación si encuentra dependencias activas.
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ TIPS ============ -->
+      <section id="tips">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"></path><path d="M10 22h4"></path><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"></path></svg>
+          </div>
+          <div>
+            <h2>Consejos prácticos</h2>
+            <div class="lead">Pequeños trucos para mover el sistema más rápido en el día a día.</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <h4>Busca por documento</h4>
+            <p>Cuando un paciente regresa, escribir su cédula es la forma más rápida de encontrarlo.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <h4>Llena el correo siempre</h4>
+            <p>Es la vía por donde llegan notificaciones, estudios y acceso a la app del paciente.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>
+            </div>
+            <h4>Mueve los estados a tiempo</h4>
+            <p>Avanzar la orden en cuanto avanza el trabajo mantiene al paciente informado y reduce llamadas.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            </div>
+            <h4>Imprime para el taller</h4>
+            <p>La orden impresa es la mejor forma de que el técnico no se pierda especificaciones.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            </div>
+            <h4>Exporta para análisis</h4>
+            <p>Los CSV de órdenes y oficinas se abren en Excel para reportes propios.</p>
+          </div>
+          <div class="feature">
+            <div class="feature-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <h4>Revisa el historial</h4>
+            <p>Cada cambio de orden queda guardado: úsalo para reconstruir cualquier caso.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ FAQ ============ -->
+      <section id="faq">
+        <div class="section-header">
+          <div class="section-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+          </div>
+          <div>
+            <h2>Preguntas frecuentes</h2>
+            <div class="lead">Las dudas más comunes, respondidas.</div>
+          </div>
+        </div>
+
+        <details class="accordion" open>
+          <summary>¿Puedo registrar el mismo paciente en dos oficinas?</summary>
+          <div class="accordion-body">
+            <p>Cada paciente vive en una sola oficina principal, pero puede tener órdenes vinculadas a distintas sucursales. Si necesitas que el paciente sea atendido en otra oficina, basta con cambiar la oficina asignada en su ficha.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>¿Qué pasa si elimino una orden por error?</summary>
+          <div class="accordion-body">
+            <p>El sistema guarda historial de cambios para reconstruir lo ocurrido. Aun así, recomendamos <strong>no eliminar</strong> órdenes ya entregadas: cambia su estado en lugar de borrarlas. Si se eliminó una orden importante, contacta al administrador del sistema.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>¿Por qué no puedo borrar un paciente?</summary>
+          <div class="accordion-body">
+            <p>Porque tiene <strong>órdenes asociadas</strong>. El sistema protege la integridad del historial impidiendo borrar pacientes cuyos trabajos siguen vivos. Si realmente necesitas eliminarlo, primero deberías cerrar o reasignar sus órdenes.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>¿Los pacientes pueden ver el estado de sus órdenes?</summary>
+          <div class="accordion-body">
+            <p>Sí. Si configuras correctamente el correo del paciente y le entregas acceso a la app móvil, recibirá notificaciones cada vez que su orden avance de estado y podrá consultarla desde su teléfono.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>¿Cómo cambio el orden inicial de numeración?</summary>
+          <div class="accordion-body">
+            <p>Desde la ficha de la oficina, en el campo <em>"Orden inicial"</em>. Recuerda que esto solo afecta a las órdenes futuras; las existentes mantienen su número.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>¿Hay límite de archivos adjuntos?</summary>
+          <div class="accordion-body">
+            <p>Sí: hasta <strong>10 archivos por paciente</strong>. Si llegas al límite, elimina archivos antiguos antes de subir nuevos. Recuerda que al enviar archivos por correo, el sistema valida que no excedan el tamaño máximo permitido por el servicio de email.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>¿Puedo deshacer un cambio de estado de una orden?</summary>
+          <div class="accordion-body">
+            <p>Sí. Existe la opción de <strong>revertir al estado inicial</strong>, lo que devuelve la orden a "Esperando" para reiniciar el flujo. Úsalo cuando detectes errores o sea necesario rehacer parte del trabajo.</p>
+          </div>
+        </details>
+
+        <details class="accordion">
+          <summary>¿Quién puede cambiar los estados de las órdenes?</summary>
+          <div class="accordion-body">
+            <p>Solo los usuarios con permisos de gestión de órdenes (típicamente especialistas, técnicos y administradores). Los pacientes pueden ver el estado pero no modificarlo.</p>
+          </div>
+        </details>
+      </section>
+
+      <div class="footer">
+        Manual generado para Feets &amp; Shoes · Versión 1.0
+        <br />
+        <span style="opacity:.7;">¿Necesitas algo más? Habla con el administrador del sistema.</span>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  // ---------- Tema claro/oscuro ----------
+  const themeBtn = document.getElementById('theme-btn');
+  const savedTheme = localStorage.getItem('fs-theme');
+  if (savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+  themeBtn.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.setItem('fs-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      localStorage.setItem('fs-theme', 'dark');
+    }
+  });
+
+  // ---------- Imprimir ----------
+  document.getElementById('print-btn').addEventListener('click', () => window.print());
+
+  // ---------- Menú móvil ----------
+  const sidebar = document.getElementById('sidebar');
+  document.getElementById('menu-toggle').addEventListener('click', () => sidebar.classList.toggle('open'));
+  document.querySelectorAll('.nav-link').forEach(a => {
+    a.addEventListener('click', () => sidebar.classList.remove('open'));
+  });
+
+  // ---------- Navegación activa por scroll ----------
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const currentSection = document.getElementById('current-section');
+  const sectionTitles = {
+    inicio: 'Bienvenida',
+    flujo: 'Flujo general',
+    pacientes: 'Pacientes',
+    ordenes: 'Órdenes',
+    oficinas: 'Oficinas',
+    tips: 'Consejos prácticos',
+    faq: 'Preguntas frecuentes'
+  };
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(l => {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+        if (sectionTitles[id]) currentSection.textContent = sectionTitles[id];
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+
+  // ---------- Scroll suave ----------
+  document.querySelectorAll('a[href^="#"]').forEach(link => {
+    link.addEventListener('click', (e) => {
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // ---------- Tabs ----------
+  document.querySelectorAll('[data-tabs]').forEach(group => {
+    const tabs = group.querySelectorAll('.tab');
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.dataset.tab;
+        tabs.forEach(t => t.classList.toggle('active', t === tab));
+        // hide all sibling tab-contents in the section
+        const section = group.closest('section');
+        section.querySelectorAll('.tab-content').forEach(c => {
+          c.classList.toggle('active', c.id === target);
+        });
+      });
+    });
+  });
+
+  // ---------- Diagrama interactivo de estados ----------
+  const stateData = {
+    esperando: {
+      label: 'Esperando',
+      when: 'Estado inicial',
+      desc: 'La orden acaba de crearse y aún no ha entrado al taller. Es el punto de partida.',
+      action: 'El técnico revisa la orden y confirma su recepción.'
+    },
+    recibida: {
+      label: 'Recibida',
+      when: 'La orden llegó al taller',
+      desc: 'Se confirma que la orden está en manos del equipo de fabricación.',
+      action: 'El técnico planifica el trabajo y prepara los materiales.'
+    },
+    proceso: {
+      label: 'En proceso',
+      when: 'Fabricación en curso',
+      desc: 'El técnico ya empezó a trabajar en la ortesis. Esta etapa puede tomar varios días.',
+      action: 'Continuar la fabricación hasta dejarla lista.'
+    },
+    finalizada: {
+      label: 'Finalizada',
+      when: 'Trabajo terminado',
+      desc: 'La pieza está lista, pero aún no se ha empaquetado ni revisado para entrega.',
+      action: 'Control de calidad y preparación para entrega.'
+    },
+    lista: {
+      label: 'Lista para entrega',
+      when: 'Empaquetada y revisada',
+      desc: 'La orden ya pasó control de calidad y está empaquetada esperando al paciente.',
+      action: 'Coordinar con el paciente la fecha y forma de entrega.'
+    },
+    entregada: {
+      label: 'Entregada',
+      when: 'Cerrada',
+      desc: 'El paciente recibió su orden. El ciclo se completa.',
+      action: 'Ninguna acción adicional, salvo seguimiento si hubiera ajustes.'
+    }
+  };
+
+  const stateDetail = document.getElementById('state-detail');
+  document.querySelectorAll('.state-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('.state-chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const data = stateData[chip.dataset.state];
+      stateDetail.innerHTML = `
+        <div class="when">${data.when}</div>
+        <h4>${data.label}</h4>
+        <p>${data.desc}</p>
+        <p><strong>Acción típica:</strong> ${data.action}</p>
+      `;
+    });
+  });
+
+  // ---------- Buscador en la barra lateral ----------
+  const searchInput = document.getElementById('search-input');
+  searchInput.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    navLinks.forEach(link => {
+      if (!query) { link.style.display = ''; return; }
+      const text = link.textContent.toLowerCase();
+      const sectionId = link.getAttribute('href').replace('#', '');
+      const section = document.getElementById(sectionId);
+      const sectionText = section ? section.textContent.toLowerCase() : '';
+      link.style.display = (text.includes(query) || sectionText.includes(query)) ? '' : 'none';
+    });
+  });
+
+  // ---------- Animaciones de entrada ----------
+  const fadeElements = document.querySelectorAll('.card, .feature, .flow-card, .accordion, .states-diagram, .field-list');
+  fadeElements.forEach(el => el.classList.add('fade-up'));
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  fadeElements.forEach(el => fadeObserver.observe(el));
+</script>
+</body>
+</html>
